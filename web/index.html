@@ -14,7 +14,6 @@
     --text:#17191d;
     --muted:#8a8f98;
     --green:#22a35a;
-    --green-light:#dff5e8;
     --amber:#e9a11b;
     --red:#e05252;
     --blue:#4a8fe7;
@@ -22,7 +21,9 @@
     --radius:14px;
 }
 
-*{box-sizing:border-box}
+*{
+    box-sizing:border-box;
+}
 
 body{
     margin:0;
@@ -81,7 +82,7 @@ body{
     flex-wrap:wrap;
 }
 
-/* LEGEND */
+/* LEGENDA */
 
 #legend{
     display:flex;
@@ -102,8 +103,14 @@ body{
     border-radius:3px;
 }
 
-#legend-swatch-ocupado{background:var(--green)}
-#legend-swatch-alerta{background:var(--amber)}
+#legend-swatch-ocupado{
+    background:var(--green);
+}
+
+#legend-swatch-alerta{
+    background:var(--amber);
+}
+
 #legend-swatch-livre{
     background:var(--empty);
     border:1px solid #ddd;
@@ -142,7 +149,7 @@ body{
 
 #main-layout{
     display:grid;
-    grid-template-columns:1.5fr 1fr;
+    grid-template-columns:1.3fr 1fr;
     gap:20px;
     align-items:start;
 }
@@ -160,7 +167,7 @@ body{
 /* GRID */
 
 #warehouse-grid-card{
-    padding:24px;
+    padding:30px;
 }
 
 #warehouse-grid-wrapper{
@@ -169,38 +176,39 @@ body{
 
 #warehouse-grid{
     display:grid;
-    grid-template-columns:22px repeat(10,1fr);
-    gap:7px;
-    width:100%;
+    grid-template-columns:30px repeat(3,90px);
+    grid-auto-rows:90px;
+    gap:10px;
+    justify-content:center;
+    align-items:center;
 }
 
 .col-header{
-    font-size:10px;
-    color:#b0b4bb;
+    font-size:11px;
+    color:#a0a5ad;
     text-align:center;
-    padding-bottom:3px;
 }
 
 .row-label{
     display:flex;
     align-items:center;
     justify-content:flex-end;
-    padding-right:5px;
-    font-size:10px;
-    color:#b0b4bb;
+    padding-right:8px;
+    font-size:11px;
+    color:#a0a5ad;
 }
 
 .slot{
-    width:100%;
-    aspect-ratio:1;
-    border-radius:6px;
+    width:90px;
+    height:90px;
+    border-radius:10px;
     background:var(--empty);
     cursor:pointer;
     transition:.15s ease;
 }
 
 .slot:hover{
-    transform:scale(1.07);
+    transform:scale(1.05);
 }
 
 .slot.ocupado-1{
@@ -216,12 +224,13 @@ body{
 }
 
 #grid-footnote{
-    margin-top:18px;
+    margin-top:22px;
+    text-align:center;
     font-size:10px;
     color:#a0a5ad;
 }
 
-/* RIGHT COLUMN */
+/* COLUNA DIREITA */
 
 #right-column{
     display:flex;
@@ -229,7 +238,7 @@ body{
     gap:16px;
 }
 
-/* STATS */
+/* ESTATÍSTICAS */
 
 #stats-grid{
     display:grid;
@@ -261,12 +270,23 @@ body{
     color:var(--muted);
 }
 
-#stat-estoque-atual{color:var(--green)}
-#stat-entradas-hoje{color:var(--blue)}
-#stat-saidas-hoje{color:var(--red)}
-#stat-ocupacao{color:var(--green)}
+#stat-estoque-atual{
+    color:var(--green);
+}
 
-/* PANELS */
+#stat-entradas-hoje{
+    color:var(--blue);
+}
+
+#stat-saidas-hoje{
+    color:var(--red);
+}
+
+#stat-ocupacao{
+    color:var(--green);
+}
+
+/* PAINÉIS */
 
 .panel-card{
     padding:18px;
@@ -335,7 +355,7 @@ body{
     color:var(--muted);
 }
 
-/* ALERTS */
+/* ALERTAS */
 
 #alerts-list{
     display:flex;
@@ -394,9 +414,10 @@ body{
     color:var(--muted);
 }
 
-/* RESPONSIVE */
+/* RESPONSIVO */
 
 @media(max-width:860px){
+
     body{
         padding:20px;
     }
@@ -404,28 +425,35 @@ body{
     #main-layout{
         grid-template-columns:1fr;
     }
+
 }
 
 @media(max-width:500px){
-    #stats-grid{
-        grid-template-columns:1fr 1fr;
+
+    #warehouse-grid-card{
+        padding:20px 10px;
     }
 
     #warehouse-grid{
-        gap:4px;
-    }
-
-    #warehouse-grid-card{
-        padding:15px;
+        grid-template-columns:25px repeat(3,70px);
+        grid-auto-rows:70px;
+        gap:7px;
     }
 
     .slot{
-        border-radius:4px;
+        width:70px;
+        height:70px;
+        border-radius:8px;
+    }
+
+    #stats-grid{
+        grid-template-columns:1fr 1fr;
     }
 
     .log-row{
         grid-template-columns:1.4fr .8fr .7fr .4fr;
     }
+
 }
 </style>
 </head>
@@ -434,190 +462,274 @@ body{
 
 <div id="dashboard">
 
-<!-- HEADER -->
+    <!-- HEADER -->
 
-<div id="page-header">
+    <div id="page-header">
 
-    <div id="header-left">
-        <div id="header-title-row">
-            <h1 id="header-title">Armazém</h1>
-            <span id="header-subtitle">Planta baixa · 10 × 10 · 100 slots</span>
-        </div>
-    </div>
+        <div id="header-left">
 
-    <div id="header-right">
+            <div id="header-title-row">
 
-        <div id="legend">
-            <div class="legend-item">
-                <span class="legend-swatch" id="legend-swatch-ocupado"></span>
-                Ocupado
+                <h1 id="header-title">
+                    Armazém
+                </h1>
+
+                <span id="header-subtitle">
+                    Planta baixa · 3 × 3 · 9 slots
+                </span>
+
             </div>
 
-            <div class="legend-item">
-                <span class="legend-swatch" id="legend-swatch-alerta"></span>
-                Alerta
+        </div>
+
+        <div id="header-right">
+
+            <div id="legend">
+
+                <div class="legend-item">
+                    <span
+                        class="legend-swatch"
+                        id="legend-swatch-ocupado">
+                    </span>
+                    Ocupado
+                </div>
+
+                <div class="legend-item">
+                    <span
+                        class="legend-swatch"
+                        id="legend-swatch-alerta">
+                    </span>
+                    Alerta
+                </div>
+
+                <div class="legend-item">
+                    <span
+                        class="legend-swatch"
+                        id="legend-swatch-livre">
+                    </span>
+                    Livre
+                </div>
+
             </div>
 
-            <div class="legend-item">
-                <span class="legend-swatch" id="legend-swatch-livre"></span>
-                Livre
+            <div id="status-block">
+
+                <span id="status-title">
+                    CD
+                </span>
+
+                <div id="status-indicator">
+
+                    <span id="status-dot"></span>
+
+                    <span id="status-text">
+                        Online
+                    </span>
+
+                </div>
+
             </div>
+
         </div>
 
-        <div id="status-block">
-            <span id="status-title">CD</span>
+    </div>
 
-            <div id="status-indicator">
-                <span id="status-dot"></span>
-                <span id="status-text">Online</span>
+
+    <!-- CONTEÚDO -->
+
+    <div id="main-layout">
+
+        <!-- GRID -->
+
+        <div id="warehouse-grid-card">
+
+            <div id="warehouse-grid-wrapper">
+
+                <div id="warehouse-grid">
+
+                    <div class="corner-header"></div>
+
+                </div>
+
             </div>
+
+            <div id="grid-footnote">
+                Clique em um slot para alterar o estado
+            </div>
+
+        </div>
+
+
+        <!-- COLUNA DIREITA -->
+
+        <div id="right-column">
+
+            <!-- ESTATÍSTICAS -->
+
+            <div id="stats-grid">
+
+                <div class="stat-card">
+
+                    <div
+                        class="stat-label"
+                        id="label-estoque-atual">
+                        ESTOQUE ATUAL
+                    </div>
+
+                    <div
+                        class="stat-value"
+                        id="stat-estoque-atual">
+                        57
+                    </div>
+
+                    <div
+                        class="stat-unit"
+                        id="unit-estoque-atual">
+                        caixas no CD
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div
+                        class="stat-label"
+                        id="label-entradas-hoje">
+                        ENTRADAS HOJE
+                    </div>
+
+                    <div
+                        class="stat-value"
+                        id="stat-entradas-hoje">
+                        45
+                    </div>
+
+                    <div
+                        class="stat-unit"
+                        id="unit-entradas-hoje">
+                        caixas
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div
+                        class="stat-label"
+                        id="label-saidas-hoje">
+                        SAÍDAS HOJE
+                    </div>
+
+                    <div
+                        class="stat-value"
+                        id="stat-saidas-hoje">
+                        37
+                    </div>
+
+                    <div
+                        class="stat-unit"
+                        id="unit-saidas-hoje">
+                        caixas
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div
+                        class="stat-label"
+                        id="label-ocupacao">
+                        OCUPAÇÃO
+                    </div>
+
+                    <div
+                        class="stat-value"
+                        id="stat-ocupacao">
+                        57%
+                    </div>
+
+                    <div
+                        class="stat-unit"
+                        id="unit-ocupacao">
+                        do espaço
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- LOG -->
+
+            <div class="panel-card">
+
+                <div
+                    class="panel-title"
+                    id="title-log">
+                    LOG DE CONFERÊNCIA
+                </div>
+
+                <div id="log-list"></div>
+
+            </div>
+
+
+            <!-- ALERTAS -->
+
+            <div class="panel-card">
+
+                <div
+                    class="panel-title"
+                    id="title-alerts">
+                    ALERTAS DO SISTEMA
+                </div>
+
+                <div id="alerts-list"></div>
+
+            </div>
+
         </div>
 
     </div>
 
 </div>
 
-<!-- MAIN -->
-
-<div id="main-layout">
-
-<!-- PLANTA -->
-
-<div id="warehouse-grid-card">
-
-    <div id="warehouse-grid-wrapper">
-
-        <div id="warehouse-grid">
-
-            <div class="corner-header"></div>
-
-        </div>
-
-    </div>
-
-    <div id="grid-footnote">
-        Clique em um slot para alterar o estado
-    </div>
-
-</div>
-
-<!-- DIREITA -->
-
-<div id="right-column">
-
-<!-- ESTATÍSTICAS -->
-
-<div id="stats-grid">
-
-    <div class="stat-card" id="card-estoque-atual">
-        <div class="stat-label" id="label-estoque-atual">
-            ESTOQUE ATUAL
-        </div>
-
-        <div class="stat-value" id="stat-estoque-atual">
-            57
-        </div>
-
-        <div class="stat-unit" id="unit-estoque-atual">
-            caixas no CD
-        </div>
-    </div>
-
-    <div class="stat-card" id="card-entradas-hoje">
-        <div class="stat-label" id="label-entradas-hoje">
-            ENTRADAS HOJE
-        </div>
-
-        <div class="stat-value" id="stat-entradas-hoje">
-            45
-        </div>
-
-        <div class="stat-unit" id="unit-entradas-hoje">
-            caixas
-        </div>
-    </div>
-
-    <div class="stat-card" id="card-saidas-hoje">
-        <div class="stat-label" id="label-saidas-hoje">
-            SAÍDAS HOJE
-        </div>
-
-        <div class="stat-value" id="stat-saidas-hoje">
-            37
-        </div>
-
-        <div class="stat-unit" id="unit-saidas-hoje">
-            caixas
-        </div>
-    </div>
-
-    <div class="stat-card" id="card-ocupacao">
-        <div class="stat-label" id="label-ocupacao">
-            OCUPAÇÃO
-        </div>
-
-        <div class="stat-value" id="stat-ocupacao">
-            57%
-        </div>
-
-        <div class="stat-unit" id="unit-ocupacao">
-            do espaço
-        </div>
-    </div>
-
-</div>
-
-<!-- LOG -->
-
-<div class="panel-card" id="card-log">
-
-    <div class="panel-title" id="title-log">
-        LOG DE CONFERÊNCIA
-    </div>
-
-    <div id="log-list"></div>
-
-</div>
-
-<!-- ALERTAS -->
-
-<div class="panel-card" id="card-alerts">
-
-    <div class="panel-title" id="title-alerts">
-        ALERTAS DO SISTEMA
-    </div>
-
-    <div id="alerts-list"></div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
 
 <script>
 
-const COLS = 10;
+/* =========================
+   CONFIGURAÇÃO DA GRID
+========================= */
+
+const COLS = 3;
 
 const ROWS = [
-    "A","B","C","D","E",
-    "F","G","H","I","J"
+    "A",
+    "B",
+    "C"
 ];
 
+
+/*
+0 = livre
+1 = ocupado
+2 = ocupado
+3 = alerta
+*/
+
 const layout = {
-    A:[1,0,2,2,1,1,1,2,0,0],
-    B:[0,2,0,0,0,0,1,1,0,2],
-    C:[1,1,2,2,0,0,1,2,0,1],
-    D:[2,0,0,0,0,2,1,1,2,2],
-    E:[1,1,2,0,1,0,1,2,1,1],
-    F:[2,0,0,1,0,2,1,0,0,3],
-    G:[0,1,2,2,1,0,2,2,1,0],
-    H:[0,2,0,0,0,0,1,0,0,0],
-    I:[0,1,0,2,1,0,0,0,1,0],
-    J:[2,2,0,1,2,2,1,1,0,0]
+
+    A: [1, 0, 2],
+
+    B: [0, 2, 0],
+
+    C: [1, 1, 2]
+
 };
+
 
 const statusClass = [
     "livre",
@@ -626,71 +738,117 @@ const statusClass = [
     "alerta"
 ];
 
-const gridEl = document.getElementById("warehouse-grid");
 
-/* CABEÇALHO DAS COLUNAS */
+const gridEl =
+    document.getElementById("warehouse-grid");
 
-for(let c=1;c<=COLS;c++){
 
-    const div=document.createElement("div");
+/* =========================
+   CABEÇALHO DAS COLUNAS
+========================= */
 
-    div.className="col-header";
-    div.id="col-header-"+c;
-    div.textContent=String(c).padStart(2,"0");
+for(let c = 1; c <= COLS; c++){
+
+    const div =
+        document.createElement("div");
+
+    div.className =
+        "col-header";
+
+    div.id =
+        "col-header-" + c;
+
+    div.textContent =
+        String(c).padStart(2,"0");
 
     gridEl.appendChild(div);
+
 }
 
-/* SLOTS */
 
-ROWS.forEach(rowLetter=>{
+/* =========================
+   CRIAÇÃO DOS SLOTS
+========================= */
 
-    const rowLabel=document.createElement("div");
+ROWS.forEach(rowLetter => {
 
-    rowLabel.className="row-label";
-    rowLabel.id="row-label-"+rowLetter;
-    rowLabel.textContent=rowLetter;
+    const rowLabel =
+        document.createElement("div");
+
+    rowLabel.className =
+        "row-label";
+
+    rowLabel.id =
+        "row-label-" + rowLetter;
+
+    rowLabel.textContent =
+        rowLetter;
 
     gridEl.appendChild(rowLabel);
 
-    for(let c=1;c<=COLS;c++){
 
-        const cellId=rowLetter+c;
+    for(let c = 1; c <= COLS; c++){
 
-        const div=document.createElement("div");
+        const cellId =
+            rowLetter + c;
 
-        const state=layout[rowLetter][c-1];
+        const div =
+            document.createElement("div");
 
-        div.className="slot "+statusClass[state];
+        const state =
+            layout[rowLetter][c - 1];
 
-        div.id=cellId;
-        div.dataset.state=state;
-        div.title=cellId;
 
-        div.addEventListener("click",()=>{
+        div.className =
+            "slot " + statusClass[state];
 
-            let s=parseInt(
-                div.dataset.state,
-                10
-            );
+        div.id =
+            cellId;
 
-            s=(s+1)%statusClass.length;
+        div.dataset.state =
+            state;
 
-            div.className=
-                "slot "+statusClass[s];
+        div.title =
+            "Slot " + cellId;
 
-            div.dataset.state=s;
+
+        /* ALTERAR ESTADO AO CLICAR */
+
+        div.addEventListener("click", () => {
+
+            let s =
+                parseInt(
+                    div.dataset.state,
+                    10
+                );
+
+            s =
+                (s + 1) %
+                statusClass.length;
+
+
+            div.className =
+                "slot " +
+                statusClass[s];
+
+            div.dataset.state =
+                s;
 
         });
 
+
         gridEl.appendChild(div);
+
     }
 
 });
 
-/* LOG */
 
-const logEntries=[
+/* =========================
+   LOG DE CONFERÊNCIA
+========================= */
+
+const logEntries = [
 
     {
         id:1,
@@ -758,49 +916,64 @@ const logEntries=[
 
 ];
 
-const logList=
+
+const logList =
     document.getElementById("log-list");
 
-logEntries.forEach(entry=>{
 
-    const row=
+logEntries.forEach(entry => {
+
+    const row =
         document.createElement("div");
 
-    row.className="log-row";
-    row.id="log-row-"+entry.id;
+    row.className =
+        "log-row";
 
-    const data=
+    row.id =
+        "log-row-" + entry.id;
+
+
+    const data =
         document.createElement("span");
 
-    data.className="log-datahora";
-    data.id="log-"+entry.id+"-data";
-    data.textContent=entry.data;
+    data.className =
+        "log-datahora";
 
-    const tipo=
+    data.textContent =
+        entry.data;
+
+
+    const tipo =
         document.createElement("span");
 
-    tipo.id="log-"+entry.id+"-tipo";
+    tipo.className =
+        entry.tipo === "ENTRADA"
+        ? "log-tipo-entrada"
+        : "log-tipo-saida";
 
-    tipo.className=
-        entry.tipo==="ENTRADA"
-        ?"log-tipo-entrada"
-        :"log-tipo-saida";
+    tipo.textContent =
+        entry.tipo;
 
-    tipo.textContent=entry.tipo;
 
-    const caixa=
+    const caixa =
         document.createElement("span");
 
-    caixa.className="log-caixa";
-    caixa.id="log-"+entry.id+"-caixa";
-    caixa.textContent=entry.caixa;
+    caixa.className =
+        "log-caixa";
 
-    const status=
+    caixa.textContent =
+        entry.caixa;
+
+
+    const status =
         document.createElement("span");
 
-    status.className="log-status-ok";
-    status.id="log-"+entry.id+"-status";
-    status.textContent=entry.status;
+    status.className =
+        "log-status-ok";
+
+    status.textContent =
+        entry.status;
+
 
     row.appendChild(data);
     row.appendChild(tipo);
@@ -811,22 +984,25 @@ logEntries.forEach(entry=>{
 
 });
 
-/* ALERTAS */
 
-const alerts=[
+/* =========================
+   ALERTAS
+========================= */
+
+const alerts = [
 
     {
         id:1,
         level:"critical",
-        title:"Slot F10 em alerta",
+        title:"Slot C3 em alerta",
         desc:"Divergência de contagem detectada — conferência manual necessária."
     },
 
     {
         id:2,
         level:"warning",
-        title:"Estoque baixo — Corredor H",
-        desc:"Ocupação abaixo de 15% na fileira H. Reposição recomendada."
+        title:"Estoque baixo — Corredor C",
+        desc:"Ocupação abaixo de 15% na fileira C. Reposição recomendada."
     },
 
     {
@@ -845,56 +1021,72 @@ const alerts=[
 
 ];
 
-const alertsList=
+
+const alertsList =
     document.getElementById("alerts-list");
 
-if(alerts.length===0){
 
-    const empty=
+if(alerts.length === 0){
+
+    const empty =
         document.createElement("div");
 
-    empty.id="alerts-empty";
-    empty.textContent=
+    empty.id =
+        "alerts-empty";
+
+    empty.textContent =
         "Nenhum alerta ativo no momento.";
 
     alertsList.appendChild(empty);
 
 }else{
 
-    alerts.forEach(a=>{
+    alerts.forEach(a => {
 
-        const row=
+        const row =
             document.createElement("div");
 
-        row.className="alert-row";
-        row.id="alert-row-"+a.id;
+        row.className =
+            "alert-row";
 
-        const icon=
+        row.id =
+            "alert-row-" + a.id;
+
+
+        const icon =
             document.createElement("span");
 
-        icon.className=
-            "alert-icon level-"+a.level;
+        icon.className =
+            "alert-icon level-" +
+            a.level;
 
-        icon.id="alert-"+a.id+"-icon";
 
-        const body=
+        const body =
             document.createElement("div");
 
-        body.className="alert-body";
+        body.className =
+            "alert-body";
 
-        const title=
+
+        const title =
             document.createElement("span");
 
-        title.className="alert-title";
-        title.id="alert-"+a.id+"-title";
-        title.textContent=a.title;
+        title.className =
+            "alert-title";
 
-        const desc=
+        title.textContent =
+            a.title;
+
+
+        const desc =
             document.createElement("span");
 
-        desc.className="alert-desc";
-        desc.id="alert-"+a.id+"-desc";
-        desc.textContent=a.desc;
+        desc.className =
+            "alert-desc";
+
+        desc.textContent =
+            a.desc;
+
 
         body.appendChild(title);
         body.appendChild(desc);
@@ -912,4 +1104,3 @@ if(alerts.length===0){
 
 </body>
 </html>
-```
